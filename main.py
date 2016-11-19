@@ -1,5 +1,8 @@
+# Imports
 import csv
+from collections import Counter
 
+# Initlialzie Parallel Lists
 location = []
 date = []
 time = []
@@ -7,6 +10,7 @@ pages = []
 cost = []
 quota = []
 
+# Read CSV into the parallel lists
 with open('data.csv', 'rb') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     i = 0
@@ -19,24 +23,48 @@ with open('data.csv', 'rb') as csvfile:
         quota.append(int(row[6]))
         i += 1
 
-# Max Pages
+## Page Methods
+
+# Calc and Print Max Pages
 max = 0
 for e in pages:
     if e > max:
         max = e
-print max
+print "Max Pages: ", max
 
-#Min Pages
+# Calc and Print Min Pages
+min = max
+for e in pages:
+    if e < min:
+        min = e
+print "Min Pages: ", min
 
-#Average Pages
+# Calc and Print Average Pages
 numEntries = len(pages)
 totalPages = sum(pages)
 average = totalPages/numEntries
 print average
 
-#Peak Hours
+## Location Methods
 
-#Peak Month
+# Organize the locations in an ascending order
+locCounter = Counter(location)
+from operator import itemgetter
+locCounter_ascending = sorted(locCounter.items(), key=itemgetter(1), reverse=True)
+
+# Print Most Used Location
+print "Most Used Room: ", locCounter_ascending[0][0]
+
+# Print Least Used Location
+print "Least Used Room: ", locCounter_ascending[len(locCounter_ascending ) - 1][0]
+print "\n"
+print "List of Rooms:"
+
+# Print a list of locations in ascending order
+for key,value in locCounter_ascending:
+    print key + ": ",value, "prints"
+
+## Quota Methods
 
 #Prof Vs Student Usage
 #nested loops where one focuses on the printer
@@ -59,8 +87,4 @@ if prof > stud:
     print "More Faculty use the printers"
 else:
     print "More Students use the printers"
-
-
-
-
 

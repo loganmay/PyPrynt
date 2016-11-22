@@ -1,0 +1,23 @@
+Rob's Note (11/21):
+
+I figure with the GUI we can implement more things such as:
+An option for a user to search entries that are greater than a certain number
+An option for the user to select multiple printers and maybe compare there prints or something?
+Maybe an option to see when a printer is most heavily used during the day, or which date it was used the most
+
+If you already have something set up feel free to use that jsut let me know!
+Thanks guys, sorry I couldn't come tonight...
+-Rob
+
+______________________________
+
+Logan's Note (11/22):
+
+Moving forward:
+
+- Refine the GUI to include search and sort (see Rob's Note)
+- Look more into the faculty to student ratio and see if there is an interesting metric we can generate
+regarding pages/print and the ratio of faculty to students
+
+______________________________
+

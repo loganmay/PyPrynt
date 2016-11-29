@@ -2,6 +2,7 @@
 import csv
 from Tkinter import *
 import library
+
 ## Initlialize Parallel Lists
 location = []
 date = []

@@ -2,6 +2,8 @@
 import csv
 from Tkinter import *
 import library
+
+
 ## Initlialize Parallel Lists
 location = []
 date = []
@@ -37,77 +39,129 @@ root.title("PyPrint")
 root.geometry("600x500")
 
 # Welcome Label
-welcomeLabel = Label(root, text="Welcome to PyPrint!")
+welcomeLabel = Label(root, text="Select the options you wish to print:")
 welcomeLabel.grid(row=0, sticky=W)
 
 ## Partition Label
-partitionLabel = Label(root, text="-------------------------Job Page Information------------------------")
-partitionLabel.grid(row=1, columnspan=5, sticky=W)
+partitionLabel = Label(root, text="Job Page Information", font=("Helvetica", 12))
+partitionLabel.grid(row=1, columnspan=5, sticky=W, padx=5)
 
 # Max Pages
-btnCalcMaxPages = Button(root, text="Calculate Maximum Pages Printed", command= lambda: library.calcMaxPages(pages))
-btnCalcMaxPages.bind("<Button-1>")
-btnCalcMaxPages.grid(row=2, column=0, sticky=W)
+maxPagesVar = IntVar()
+checkCalcMaxPages= Checkbutton(root, text="Maximum pages in a single print", variable=maxPagesVar).grid(row=2, column=0, sticky=W, padx=25)
+#library.calcMaxPages(pages))
 
 # Min Pages
-btnCalcMinPages = Button(root, text="Calculate Minimum Pages Printed", command= lambda: library.calcMinPages(pages))
-btnCalcMinPages.bind("<Button-1>")
-btnCalcMinPages.grid(row=2, column=1, sticky=W)
+minPagesVar = IntVar()
+checkCalcMinPages = Checkbutton(root, text="Minimum pages in a single print", variable=minPagesVar).grid(row=3, column=0, sticky=W, padx=25)
+# library.calcMinPages(pages)
 
 # Avg Pages
-btnCalcAvgPages = Button(root, text="Calculate Average Pages Printed", command= lambda: library.printAvg(pages))
-btnCalcAvgPages.bind("<Button-1>")
-btnCalcAvgPages.grid(row=3, columnspan=3)
+avgPagesVar = IntVar()
+checkCalcAvgPages = Checkbutton(root, text="Calculate Average Pages Printed", variable=avgPagesVar).grid(row=4, column=0, sticky=W, padx=25)
+# library.printAvg(pages)
 
 ## Partition Label
-partitionLabel = Label(root, text="---------Printer Visit Information--------||--------Location Information----------")
-partitionLabel.grid(row=4, columnspan=5, sticky=W)
+partitionLabel = Label(root, text="Printer Visit Information", font=("Helvetica", 12))
+partitionLabel.grid(row=5, columnspan=5, rowspan=3, sticky=W, padx=5)
 
 # Least and Most Locations
-btnLargeSmallLocations = Button(root, text="Most and Least Visited Printers", command= lambda: library.leastandMostLocation(location))
-btnLargeSmallLocations.bind("<Button-1>")
-btnLargeSmallLocations.grid(row=5, sticky=W)
+largeSmallVar = IntVar()
+checkLargeSmallLocations = Checkbutton(root, text="Calculate Most and Least Visited Printers", variable=largeSmallVar).grid(row=8, column=0, sticky=W, padx=25)
+# library.leastandMostLocation(location))
+
+## Partition Label
+partitionLabel = Label(root, text="Location Information", font=("Helvetica", 12))
+partitionLabel.grid(row=9, columnspan=5, rowspan=3, sticky=W, padx=5)
 
 # Locations and Prints
-btnListLocations = Button(root, text="Print the locations and prints of all printers", command= lambda: library.printListofRooms(location))
-btnListLocations.bind("<Button-1>")
-btnListLocations.grid(row=5, column=1, sticky=W)
+listLocationVar = IntVar()
+checkListLocations = Checkbutton(root, text="Print the locations and prints of all printers", variable=listLocationVar).grid(row=12, column=0, sticky=W, padx=25)
+# library.printListofRooms(location))
 
 ## Partition Label
-partitionLabel = Label(root, text="---------------------------------Printer User Information--------------------------------")
-partitionLabel.grid(row=6, columnspan=5, sticky=W)
+partitionLabel = Label(root, text="Printer User Information", font=("Helvetica", 12))
+partitionLabel.grid(row=13, columnspan=5, rowspan=3, sticky=W, padx=5)
 
 # Students vs. Professors for all printers
-btnPrinterUsers = Button(root, text="Who Uses Every Printer More", command= lambda:library.printerUser(quota))
-btnPrinterUsers.bind("<Button-1>")
-btnPrinterUsers.grid(row=7, sticky=W)
+printerUsersVar = IntVar()
+checkPrinterUsers = Checkbutton(root, text="Who Uses Every Printer More", variable=printerUsersVar).grid(row=16, column=0, sticky=W, padx=25)
+# library.printerUser(quota)
 
 # Students vs. Professors per printer
-btnPerPrinterUsers = Button(root, text="Who Uses Each Printer More", command= lambda:library.perPrinterUser(location, quota))
-btnPerPrinterUsers.bind("<Button-1>")
-btnPerPrinterUsers.grid(row=7, column=1, sticky=W)
+perPrinterUsersVar = IntVar()
+checkPerPrinterUsers = Checkbutton(root, text="Who Uses Each Printer More", variable=perPrinterUsersVar).grid(row=17, column=0, sticky=W, padx=25)
+#library.perPrinterUser(location, quota)
 
 ## Partition Label
-partitionLabel = Label(root, text="--------------------------------Job Cost Information-------------------------------")
-partitionLabel.grid(row=8, columnspan=5, sticky=W)
+partitionLabel = Label(root, text="Job Cost Information", font=("Helvetica", 12))
+partitionLabel.grid(row=18, columnspan=5, rowspan=3, sticky=W, padx=5)
 
 # Most costly printer
-btnMostCostly = Button(root, text="Most Costly Printer", command= lambda:library.mostCostly(location, cost))
-btnMostCostly.bind("<Button-1>")
-btnMostCostly.grid(row=9, sticky=W)
+mostCostlyVar = IntVar()
+checkMostCostly = Checkbutton(root, text="Most Costly Printer", variable=mostCostlyVar).grid(row=21, column=0, sticky=W, padx=25)
 
 # Each Printer Cost
-btnPrinterCost = Button(root, text="Each Printer Cost", command=lambda: library.totalCost(location, cost))
-btnPrinterCost.bind("<Button-1>")
-btnPrinterCost.grid(row=9, column=1, sticky=W)
+printerCostVar = IntVar()
+checkPrinterCost = Checkbutton(root, text="Each Printer Cost", variable=printerCostVar).grid(row=22, column=0, sticky=W, padx=25)
+# library.totalCost(location, cost))
 
 ## Partition Label
-partitionLabel = Label(root, text="-----------------------Search for Job specific Information---------------------------")
-partitionLabel.grid(row=10, columnspan=5, sticky=W)
+partitionLabel = Label(root, text="Job Date and Time Information", font=("Helvetica", 12))
+partitionLabel.grid(row=23, columnspan=5, rowspan=3, sticky=W, padx=5)
+
+# Most Used Date
+mostUsedDateVar = IntVar()
+checkMostUsedDate = Checkbutton(root, text="Most used Date", variable=mostUsedDateVar).grid(row=26, column=0, sticky=W, padx=25)
+
+# Least Used Date
+leastUsedDateVar = IntVar()
+checkLeastUsedDate = Checkbutton(root, text="Least used Date", variable=leastUsedDateVar).grid(row=27, column=0, sticky=W, padx=25)
+
+# Most Used Date
+mostUsedTimeVar = IntVar()
+checkMostUsedTime = Checkbutton(root, text="Most used Time", variable=mostUsedTimeVar).grid(row=26, column=0, sticky=E, padx=25)
+
+# Most Used Date
+leastUsedTimeVar = IntVar()
+checkLeastUsedTime = Checkbutton(root, text="Least used Time", variable=leastUsedTimeVar).grid(row=27, column=0, sticky=E, padx=25)
+
+
+
+
+
+# Run Report                                                                # All lists and check button values passed
+                                                                            # to runReport function
+btnRun = Button(root, text="Run Report", command = lambda: library.runReport(location,
+                                                                             date,
+                                                                             time,
+                                                                             pages,
+                                                                             cost,
+                                                                             quota,
+                                                                             maxPagesVar.get(),
+                                                                             minPagesVar.get(),
+                                                                             avgPagesVar.get(),
+                                                                             largeSmallVar.get(),
+                                                                             listLocationVar.get(),
+                                                                             printerUsersVar.get(),
+                                                                             perPrinterUsersVar.get(),
+                                                                             mostCostlyVar.get(),
+                                                                             printerCostVar.get(),
+                                                                             mostUsedDateVar.get(),
+                                                                             leastUsedDateVar.get(),
+                                                                             mostUsedTimeVar.get(),
+                                                                             leastUsedTimeVar.get()))
+btnRun.bind("<Button-1>")
+btnRun.grid(row=29, columnspan=5, sticky=E)
+
+'''
+## Partition Label
+partitionLabel = Label(root, text="Search for Job specific Information", font=("Helvetica", 12))
+partitionLabel.grid(row=23, columnspan=5, rowspan=3, sticky=W, padx=5)
 
 # Page value search
 pageEntry = Entry(root) # Entry for the value
-pageEntry.grid(row=11, column=1, sticky=E)
+pageEntry.grid(row=13, column=1, sticky=E)
 
 pageLabel = Label(root, text="Enter the Value")
 pageLabel.grid(row=11, column=1, sticky=W)
@@ -131,20 +185,8 @@ greaterRadio = Radiobutton(root, text="> or =", variable=someV, value=1).grid(ro
 lesserRadio = Radiobutton(root, text="< or =", variable=someV, value=2).grid(row=12, column=1, sticky=N)
 equalRadio = Radiobutton(root, text="=", variable=someV, value=3).grid(row=12, column=1, sticky=E)
 
-
-
-
-
-
-''''# High Volume Prints
-btnHighVolume = Button(root, text="Calculate the places where high volume prints take place", command= lambda:library.highVolumeLocations(pages, location))
-btnHighVolume.bind("<Button-1>")
-btnHighVolume.grid(row=9, sticky=W)'''
-
-
 # Test buttons create new branch = tk()
-
-
+'''
 # Run the root event handling loop
 root.mainloop()
 

@@ -7,7 +7,6 @@ from Tkinter import *
 from collections import Counter
 import os
 #import numpy
-f = open('PrinterReport.txt', 'w')
 
 # # # # # Pages Methods # # # # #
 #### RUN BUTTON ####
@@ -16,39 +15,41 @@ def runReport(location, date, time, pages, cost, quota, maxPagesVar,
               printerUsersVar, perPrinterUsersVar, mostCostlyVar, printerCostVar,
               mostUsedDateVar, leastUsedDateVar, mostUsedTimeVar, leastUsedTimeVar):
 
+    f = open('PrinterReport.txt', 'w')
+
     if maxPagesVar == 1:
-        calcMaxPages(pages)
+        calcMaxPages(f, pages)
     if minPagesVar == 1:
-        calcMinPages(pages)
+        calcMinPages(f, pages)
     if avgPagesVar == 1:
-        printAvg(pages)
+        printAvg(f, pages)
     if largeSmallVar == 1:
-        leastandMostLocation(location)
+        leastandMostLocation(f, location)
     if listLocationVar == 1:
-        printListofRooms(location)
+        printListofRooms(f, location)
     if printerUsersVar == 1:
-        printerUser(quota)
+        printerUser(f, quota)
     if perPrinterUsersVar == 1:
-        perPrinterUser(location, quota)
+        perPrinterUser(f, location, quota)
     if mostCostlyVar == 1:
-        mostCostly(location, cost)
+        mostCostly(f, location, cost)
     if printerCostVar == 1:
-        totalCost(location, cost)
+        totalCost(f, location, cost)
     if mostUsedDateVar == 1:
-        mostUsedDate(date)
+        mostUsedDate(f, date)
     if leastUsedDateVar == 1:
-        leastUsedDate(date)
+        leastUsedDate(f, date)
     if mostUsedTimeVar == 1:
-        mostUsedTime(date)
+        mostUsedTime(f, date)
     if leastUsedTimeVar == 1:
-        leastUsedTime(date)
+        leastUsedTime(f, date)
     os.startfile('PrinterReport.txt')
     f.close()
 #####END RUN BUTTON#######
 
 
 # Calculate the max pages in a single print
-def calcMaxPages(pages):
+def calcMaxPages(f, pages):
     max = 0
     for e in pages:
         if e > max:
@@ -57,10 +58,9 @@ def calcMaxPages(pages):
     # This is the output message
     message = "Max Pages: " + str(max)
     print >>f, message
-    f.write(message)
 
 # Calculate the min pages in a single print
-def calcMinPages(pages):
+def calcMinPages(f, pages):
     min = max
     for e in pages:
         if e < min:
@@ -70,26 +70,19 @@ def calcMinPages(pages):
     message = "Minimum Pages: " + str(min)
     print >>f, message
 
-# Calculate the average number of pages in all the prints
-def calcAvgPages(pages):
+# Print the average
+def printAvg(f, pages):
 
     numEntries = len(pages)
     totalPages = sum(pages)
     average = totalPages/numEntries
-    return average
-
-# Print the average
-def printAvg(pages):
-
-    # Call calcAvgPages function to get average pages printer
-    average = calcAvgPages(pages)
     # Output Message
     message = "Average number of pages printed: " + str(average)
     # Print output in new window using a label
     print >>f, message
 
 # Calculate the standard deviation of the number of pages in the prints
-def calcStdPages(pages):
+def calcStdPages(f, pages):
 
     stddev = numpy.std(pages)
     return stddev
@@ -106,7 +99,7 @@ def indexOfMaxPages(pages):
 # # # # # Location Methods # # # # #
 
 # Organize the locations in an ascending order
-def orderLocations(location):
+def orderLocations(f, location):
 
     locCounter = Counter(location)
     from operator import itemgetter
@@ -114,9 +107,9 @@ def orderLocations(location):
     return locationAscending
 
 # Print the most and least used locations
-def leastandMostLocation(location):
+def leastandMostLocation(f, location):
     # Get organzied list
-    locationAscending = orderLocations(location)
+    locationAscending = orderLocations(f,location)
 
     # Print Most Used Location in the new window using a label
     mostUsed = "Most used Room: " + locationAscending[0][0]
@@ -127,9 +120,9 @@ def leastandMostLocation(location):
     print >>f, leastUsed
 
 # Print the list of rooms in ascending order according to number of prints
-def printListofRooms(location):
+def printListofRooms(f, location):
     # Get organized list
-    locationAscending = orderLocations(location)
+    locationAscending = orderLocations(f,location)
 
     # Print the list to the new window my recalling a label and incrementing its position using the grid
     for key, value in locationAscending:
@@ -140,7 +133,7 @@ def printListofRooms(location):
 # # # # # Quota Methods # # # # #
 
 # See if more students or professors use the printers
-def printerUser(quota):
+def printerUser(f, quota):
     # Initialize counts and output message
     printerUserMessage = ""
     prof = 0
@@ -161,7 +154,7 @@ def printerUser(quota):
     print >>f, printerUserMessage
 
 # Look at professors vs. students for each printer individually
-def perPrinterUser(location, quota):
+def perPrinterUser(f, location, quota):
     # Initialize variables
     printer = ["HPLaserJet 600 Insalaco Lab RM 20", "HPLaserJet 600 Library Left Printer", "HPLaserJet 600 Library Right Printer", "HPLaserJet 600 Passan Hall Lounge","HPLaserJet 600 Science RM 205","HPLaserJet 600 Mercy Hall RM335","HPLaserJet 600 Annex Passan Hall Lab","HPLaserJet 600 Henry Lounge","HPLaserJet 600 Mercy Hall RM349","HP Color LaserJet M651 Library"]
     perPrinterMessage = ""
@@ -212,7 +205,7 @@ def perPrinterUser(location, quota):
         thisOtherIndex += 1
 
 # Find the most costly printer and its cost
-def mostCostly(location, cost):
+def mostCostly(f, location, cost):
     # Initialize variables
     maxCost = 0
     currentCost = 0
@@ -243,17 +236,20 @@ def mostCostly(location, cost):
             # Begin next printer total
             currentCost += cost[e]
 
+    #Convert maxCost
+    maxCost *= .0289
+    strMaxCost = "{:.2f}".format(maxCost)
     # Message concerning the most costly printer
     mostCostlyPrinter = "The printer that is most costly:  " + profitPrinter
     # Message concerning the total most costly
-    mostCostlymessage = "With a total cost of: " + str(maxCost)
+    mostCostlymessage = "With a total cost of: $" + strMaxCost
 
     # Print most costly printer
     print >>f, mostCostlyPrinter
     print >>f, mostCostlymessage
 
 # Find total cost for each printer
-def totalCost(location, cost):
+def totalCost(f, location, cost):
     # Initialize printer list
     printer = ["HPLaserJet 600 Insalaco Lab RM 20", "HPLaserJet 600 Library Left Printer",
                "HPLaserJet 600 Library Right Printer", "HPLaserJet 600 Passan Hall Lounge",
@@ -270,8 +266,10 @@ def totalCost(location, cost):
             if location[e] == p: #if current entry is printer we're looking for
                 total += cost[e]
             e += 1
-        # Outpt message
-        totalCostMessage = "Printer: {:20}  ||  Total Cost: {}".format(p, total)
+        # Convert total then Output message
+        total *= .0289
+        strTotal = "{:.2f}".format(total)
+        totalCostMessage = "Printer: {:20}  ||  Total Cost: ${}".format(p, strTotal)
 
         # Print output into the new window using a label
         print >>f, totalCostMessage
@@ -279,7 +277,7 @@ def totalCost(location, cost):
 # # # # # End Quota Methods # # #
 
 # # # # # Search Methods # # #
-def pagesSearch(location, pages, date, value, radioValue):
+def pagesSearch(f, location, pages, date, value, radioValue):
     # Initialize the list of printers
     printer = ["HPLaserJet 600 Insalaco Lab RM 20", "HPLaserJet 600 Library Left Printer",
                "HPLaserJet 600 Library Right Printer", "HPLaserJet 600 Passan Hall Lounge",
@@ -376,7 +374,7 @@ def pagesSearch(location, pages, date, value, radioValue):
     branch.mainloop()
 
 # # # # # Date methods # # #
-def mostUsedDate(date):
+def mostUsedDate(f, date):
     # Initialize pure lists
     pureDate = []
     pureTime = []
@@ -418,7 +416,7 @@ def mostUsedDate(date):
     dateMessage = "The most used date was {}\n With {} total jobs printed that day".format(mostUsedDay, currMost)
     print >>f, dateMessage
 
-def leastUsedDate(date):
+def leastUsedDate(f, date):
     # Initialize pure lists
     pureDate = []
     pureTime = []
@@ -457,12 +455,12 @@ def leastUsedDate(date):
             currLeast = dayUsageTotal
             leastUsedDay = day
 
-        print >>f, "On {}, {} jobs were printed".format(day, dayUsageTotal)
+        # print >>f, "On {}, {} jobs were printed".format(day, dayUsageTotal)
 
     dateMessage = "The least used date was {}\n With {} total jobs printed that day".format(leastUsedDay, currLeast)
     print >>f, dateMessage
 
-def mostUsedTime(date):
+def mostUsedTime(f, date):
     # Initialize pure lists
     pureDate = []
     pureTime = []
@@ -523,7 +521,7 @@ def mostUsedTime(date):
                                                                                                    currMost)
     print >>f, hourMessage
 
-def leastUsedTime(date):
+def leastUsedTime(f, date):
     # Initialize pure lists
     pureDate = []
     pureTime = []
@@ -584,18 +582,10 @@ def leastUsedTime(date):
                                                                                                    currMost)
     print >>f, hourMessage
 
-
-
-
-
-
-
-
-
 # # # # # High Volume Methods # # # # #
 # Returns a list containing the indices of high volume prints in an array
 #  (# prints > or = 1 std dev above the mean)
-def highVolumeIndices(pages):
+def highVolumeIndices(f, pages):
 
     highVolumeIndices = []
     for i,e in enumerate(pages):
